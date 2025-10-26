@@ -17,25 +17,32 @@ jobs:
       with:
         node-version: '20'
         
-    - name: Install dependencies
+    - name: Install ALL dependencies (including Prisma)
       run: npm ci
       
     - name: Generate Prisma Client
       run: npx prisma generate
       
-    - name: Build
+    - name: Build application
       run: npm run build
+      
+    - name: Install production dependencies only
+      run: |
+        rm -rf node_modules
+        npm ci --production
       
     - name: Create deployment package
       run: |
         mkdir deploy
         cp -r build deploy/
+        cp -r node_modules deploy/
+        cp -r prisma deploy/
         cp package.json deploy/
         cp package-lock.json deploy/
-        cp -r prisma deploy/
         
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: deployment
         path: deploy/
+        retention-days: 1
