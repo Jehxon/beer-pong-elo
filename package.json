@@ -2,7 +2,7 @@
 	"name": "beer-pong-elo",
 	"private": true,
 	"version": "0.0.1",
-	"type": "module",
+	"type": "commonjs",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
