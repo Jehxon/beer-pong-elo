@@ -17,7 +17,7 @@ jobs:
       with:
         node-version: '20'
         
-    - name: Install ALL dependencies (including Prisma)
+    - name: Install dependencies
       run: npm ci
       
     - name: Generate Prisma Client
@@ -26,12 +26,7 @@ jobs:
     - name: Build application
       run: npm run build
       
-    - name: Install production dependencies only
-      run: |
-        rm -rf node_modules
-        npm ci --production
-      
-    - name: Create deployment package
+    - name: Prepare deployment (keep all node_modules)
       run: |
         mkdir deploy
         cp -r build deploy/
